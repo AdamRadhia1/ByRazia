@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1440, initial-scale=1.0">
+  <title>By Razia</title>
+  <link rel="stylesheet" href="https://use.typekit.net/ogu1wcx.css">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #B3CDE0;
+      overflow: hidden;
+      height: 100vh;
+      width: 100vw;
+    }
+
+    .canvas {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      background: #B3CDE0;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 28% 44% 28%;
+    }
+
+    .left {
+      position: relative;
+      padding: 3rem 2rem 2rem 3rem;
+      display: flex;
+      flex-direction: column;
+      z-index: 2;
+    }
+
+    .title {
+      font-size: 72px;
+      font-weight: 500;
+      font-family: 'auger-mono', monospace;
+      color: #D72638;
+      letter-spacing: -0.05em;
+      line-height: 1;
+      white-space: nowrap;
+      margin: 0 0 1.5rem 0;
+      opacity: 0;
+      transform: translateX(-40px);
+      animation: fromLeft 0.9s ease forwards;
+      animation-delay: 500ms;
+    }
+
+    .desc {
+      font-size: 13px;
+      line-height: 1.7;
+      color: #000;
+      font-family: 'auger-mono', monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      opacity: 0;
+      transform: translateX(-40px);
+      animation: fromLeft 0.9s ease forwards;
+      animation-delay: 650ms;
+    }
+
+    @keyframes fromLeft {
+      to { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes fromRight {
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    @keyframes scrapbookIn {
+      0%   { opacity: 0; transform: translateX(180px) translateY(-60px) rotate(18deg); }
+      15%  { opacity: 1; transform: translateX(180px) translateY(-60px) rotate(18deg); }
+      16%  { transform: translateX(60px) translateY(30px) rotate(-8deg); }
+      30%  { transform: translateX(60px) translateY(30px) rotate(-8deg); }
+      31%  { transform: translateX(-20px) translateY(-15px) rotate(5deg); }
+      50%  { transform: translateX(-20px) translateY(-15px) rotate(5deg); }
+      51%  { transform: translateX(8px) translateY(8px) rotate(-3deg); }
+      70%  { transform: translateX(8px) translateY(8px) rotate(-3deg); }
+      71%  { transform: translateX(0px) translateY(0px) rotate(0deg); }
+      100% { opacity: 1; transform: translateX(0px) translateY(0px) rotate(0deg); }
+    }
+
+    @keyframes unfold {
+      0%   { opacity: 0; transform: scale(0.15) rotate(-12deg); }
+      40%  { opacity: 1; transform: scale(1.06) rotate(2deg); }
+      70%  { transform: scale(0.97) rotate(-1deg); }
+      100% { opacity: 1; transform: scale(1) rotate(0deg); }
+    }
+
+    @keyframes crumple {
+      0%   { opacity: 1; transform: scale(1) rotate(0deg); }
+      100% { opacity: 0; transform: scale(0.1) rotate(25deg); }
+    }
+
+    @keyframes noteAppear {
+      0%   { opacity: 0; transform: translateY(8px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes popupIn {
+      0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.85); }
+      60%  { transform: translate(-50%, -50%) scale(1.03); }
+      100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    }
+
+    .center {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .paper-hit {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      cursor: pointer;
+    }
+
+    .paper-ball {
+      position: absolute;
+      width: 55%;
+      max-width: 300px;
+      opacity: 0;
+      z-index: 3;
+      pointer-events: none;
+    }
+
+    .paper-ball.scrapbook {
+      animation: scrapbookIn 1.4s steps(1, end) forwards;
+    }
+
+    .paper-ball.crumple {
+      animation: crumple 0.35s ease forwards;
+    }
+
+    .paper-flat {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      z-index: 1;
+      transform: scale(0.15) rotate(-12deg);
+      pointer-events: none;
+    }
+
+    .paper-flat.unfold {
+      animation: unfold 0.7s cubic-bezier(0.34, 1.3, 0.64, 1) forwards;
+    }
+
+    .paper-note {
+      position: absolute;
+      top: 50%;
+      left: 12%;
+      transform: translateY(-50%);
+      z-index: 10;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .paper-note.show {
+      animation: noteAppear 0.6s ease forwards;
+      animation-delay: 500ms;
+      pointer-events: all;
+    }
+
+    .paper-note p {
+      font-family: 'auger-mono', monospace;
+      font-size: 22px;
+      font-weight: 400;
+      color: #2a1a0a;
+      line-height: 1.9;
+      letter-spacing: 0.02em;
+      margin: 0;
+      transform: rotate(-1.5deg);
+    }
+
+    .paper-note a {
+      display: block;
+      color: #2a1a0a;
+      text-decoration: none;
+      cursor: pointer;
+      transition: color 0.2s ease;
+    }
+
+    .paper-note a:hover { color: #D72638; }
+
+    .right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      justify-content: center;
+      padding: 2rem 3rem 2rem 1rem;
+      z-index: 2;
+    }
+
+    .grain {
+      pointer-events: none;
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 10;
+      opacity: 0.18;
+    }
+
+    .video-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(179, 205, 224, 0.55);
+      backdrop-filter: blur(6px);
+      z-index: 200;
+    }
+
+    .video-overlay.open { display: block; }
+
+    .video-popup {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.85);
+      width: 75vw;
+      max-width: 960px;
+      background: #1a1a1a;
+      border-radius: 4px;
+      overflow: hidden;
+      animation: popupIn 0.45s cubic-bezier(0.34, 1.3, 0.64, 1) forwards;
+    }
+
+    .video-close {
+      position: absolute;
+      top: 14px;
+      right: 18px;
+      font-family: 'auger-mono', monospace;
+      font-size: 13px;
+      color: #fff;
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      z-index: 10;
+      background: none;
+      border: none;
+      opacity: 0.7;
+      transition: opacity 0.2s ease;
+    }
+
+    .video-close:hover { opacity: 1; }
+
+    .carousel {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+    }
+
+    .carousel::-webkit-scrollbar { display: none; }
+
+    .carousel-item {
+      flex: 0 0 100%;
+      scroll-snap-align: start;
+    }
+
+    .carousel-item video {
+      width: 100%;
+      height: 54vw;
+      max-height: 540px;
+      display: block;
+      object-fit: cover;
+      background: #000;
+    }
+
+    .video-label {
+      padding: 0.8rem 1.2rem;
+      font-family: 'auger-mono', monospace;
+      font-size: 11px;
+      color: #aaa;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .carousel-nav {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      padding: 0.6rem 0 1rem;
+    }
+
+    .carousel-nav button {
+      font-family: 'auger-mono', monospace;
+      font-size: 13px;
+      color: #fff;
+      background: none;
+      border: 1px solid rgba(255,255,255,0.3);
+      padding: 6px 18px;
+      cursor: pointer;
+      letter-spacing: 0.08em;
+      transition: border-color 0.2s ease;
+    }
+
+    .carousel-nav button:hover { border-color: #fff; }
+
+    .carousel-counter {
+      font-family: 'auger-mono', monospace;
+      font-size: 11px;
+      color: #aaa;
+      letter-spacing: 0.1em;
+      min-width: 40px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="canvas">
+
+    <div class="left">
+      <h1 class="title">BY RAZIA</h1>
+      <p class="desc">
+        RADHIA ADAM IS AN ARTIST,<br>
+        DESIGNER AND CAMERA GIRL,<br>
+        BASED IN WASHINGTON<br>
+        D.C. BORN IN TANZANIA.
+      </p>
+    </div>
+
+    <div class="center" id="center">
+      <div class="paper-hit" id="paperHit"></div>
+      <img class="paper-ball" id="paperBall"
+           src="paper_ball_graphic.png" alt="paper ball"/>
+      <img class="paper-flat" id="paperFlat"
+           src="Brown paper.jpg" alt="brown paper"/>
+      <div class="paper-note" id="paperNote">
+        <p>
+          <a id="linkVideo">Video</a>
+          <a href="#">Photo</a>
+          <a href="#">Design</a>
+        </p>
+      </div>
+    </div>
+
+    <div class="right"></div>
+
+    <canvas class="grain"></canvas>
+  </div>
+
+  <!-- Video popup -->
+  <div class="video-overlay" id="videoOverlay">
+    <div class="video-popup">
+      <button class="video-close" id="videoClose">✕ CLOSE</button>
+      <div class="carousel" id="carousel">
+
+        <div class="carousel-item">
+          <video controls>
+            <source src="Kamala Rally.mp4" type="video/mp4"/>
+          </video>
+          <div class="video-label">Kamala Rally</div>
+        </div>
+
+        <div class="carousel-item">
+          <video controls>
+            <source src="Zanzibari Bridal Shower.mp4" type="video/mp4"/>
+          </video>
+          <div class="video-label">Zanzibari Bridal Shower</div>
+        </div>
+
+      </div>
+      <div class="carousel-nav">
+        <button id="prevBtn">← PREV</button>
+        <span class="carousel-counter" id="counter">1 / 2</span>
+        <button id="nextBtn">NEXT →</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const ball      = document.getElementById('paperBall');
+    const flat      = document.getElementById('paperFlat');
+    const paperHit  = document.getElementById('paperHit');
+    const note      = document.getElementById('paperNote');
+    const overlay   = document.getElementById('videoOverlay');
+    const closeBtn  = document.getElementById('videoClose');
+    const carousel  = document.getElementById('carousel');
+    const prevBtn   = document.getElementById('prevBtn');
+    const nextBtn   = document.getElementById('nextBtn');
+    const counter   = document.getElementById('counter');
+    const linkVideo = document.getElementById('linkVideo');
+    let isOpen      = false;
+    const totalVideos = 2;
+
+    const dropSound = new Audio('Paper Ball drop.wav');
+    const openSound = new Audio('paper ball sound.mp3');
+
+    function updateCounter() {
+      const index = Math.round(carousel.scrollLeft / carousel.offsetWidth) + 1;
+      counter.textContent = index + ' / ' + totalVideos;
+    }
+
+    function closePaper() {
+      isOpen = false;
+      note.classList.remove('show');
+      note.style.opacity = '0';
+      flat.classList.remove('unfold');
+      flat.style.opacity = '0';
+      flat.style.transform = 'scale(0.15) rotate(-12deg)';
+      ball.classList.remove('crumple', 'scrapbook');
+      ball.style.opacity = '0';
+      setTimeout(() => {
+        flat.style.opacity = '';
+        flat.style.transform = '';
+        note.style.opacity = '';
+        ball.classList.add('scrapbook');
+        dropSound.currentTime = 0;
+        dropSound.play().catch(() => {});
+      }, 80);
+    }
+
+    setTimeout(() => {
+      ball.classList.add('scrapbook');
+      dropSound.currentTime = 0;
+      dropSound.play().catch(() => {});
+    }, 1600);
+
+    paperHit.addEventListener('click', () => {
+      if (!isOpen) {
+        isOpen = true;
+        ball.classList.remove('scrapbook');
+        ball.classList.add('crumple');
+        openSound.currentTime = 0;
+        openSound.play().catch(() => {});
+        setTimeout(() => {
+          flat.classList.add('unfold');
+          note.classList.add('show');
+        }, 150);
+      } else {
+        closePaper();
+      }
+    });
+
+    linkVideo.addEventListener('click', (e) => {
+      e.preventDefault();
+      overlay.classList.add('open');
+      updateCounter();
+    });
+
+    closeBtn.addEventListener('click', () => {
+      overlay.classList.remove('open');
+      overlay.querySelectorAll('video').forEach(v => v.pause());
+    });
+
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) {
+        overlay.classList.remove('open');
+        overlay.querySelectorAll('video').forEach(v => v.pause());
+      }
+    });
+
+    prevBtn.addEventListener('click', () => {
+      carousel.scrollBy({ left: -carousel.offsetWidth, behavior: 'smooth' });
+      setTimeout(updateCounter, 400);
+    });
+
+    nextBtn.addEventListener('click', () => {
+      carousel.scrollBy({ left: carousel.offsetWidth, behavior: 'smooth' });
+      setTimeout(updateCounter, 400);
+    });
+
+    function drawGrain() {
+      const canvas = document.querySelector('.grain');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const w = canvas.width  = canvas.offsetWidth;
+      const h = canvas.height = canvas.offsetHeight;
+      const grainSize = 2;
+      for (let y = 0; y < h; y += grainSize) {
+        for (let x = 0; x < w; x += grainSize) {
+          const tone = 180 + Math.floor(Math.random() * 75);
+          ctx.fillStyle = `rgba(${tone},${tone},${tone},0.25)`;
+          ctx.fillRect(x, y, grainSize, grainSize);
+        }
+      }
+    }
+    window.addEventListener('DOMContentLoaded', drawGrain);
+    window.addEventListener('resize', drawGrain);
+  </script>
+</body>
+</html>
