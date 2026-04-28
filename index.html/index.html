@@ -177,7 +177,6 @@
       box-sizing: border-box;
     }
 
-    /* viewport */
     .paper-viewport {
       width: 90%;
       height: 82%;
@@ -193,7 +192,6 @@
       align-items: center;
     }
 
-    /* each slide: image on left, info on right */
     .paper-slide {
       flex: 0 0 72%;
       height: 90%;
@@ -211,7 +209,6 @@
       pointer-events: all;
     }
 
-    /* image portion */
     .slide-img-wrap {
       flex: 0 0 auto;
       height: 100%;
@@ -236,7 +233,6 @@
       box-shadow: 0 18px 50px rgba(0,0,0,0.3), 0 6px 16px rgba(0,0,0,0.18);
     }
 
-    /* info portion — to the right of image */
     .slide-info {
       flex: 1;
       display: flex;
@@ -282,7 +278,35 @@
       font-size: 12px;
     }
 
-    /* arrows — below the viewport */
+    /* coming soon placeholder */
+    .coming-soon {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+      gap: 16px;
+    }
+
+    .coming-soon-text {
+      font-family: 'auger-mono', monospace;
+      font-size: 18px;
+      color: #5a3a1a;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      opacity: 0.6;
+    }
+
+    .coming-soon-sub {
+      font-family: 'auger-mono', monospace;
+      font-size: 11px;
+      color: #7a5a3a;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      opacity: 0.45;
+    }
+
     .carousel-nav {
       position: absolute;
       bottom: 3%;
@@ -352,7 +376,6 @@
 
     .paper-close:hover { opacity: 1; }
 
-    /* PDF fullscreen */
     .pdf-viewer {
       display: none;
       position: fixed;
@@ -471,7 +494,7 @@
 
     const content = {
       video: [
-        { type: 'video', src: 'index.html/Kamala Rally.mp4',            title: 'Kamala Rally',           action: null },
+        { type: 'video', src: 'index.html/Kamala Rally.mp4',            title: 'Kamala Rally',            action: null },
         { type: 'video', src: 'index.html/Zanzibari Bridal Shower.mp4', title: 'Zanzibari Bridal Shower', action: null },
       ],
       design: [
@@ -491,7 +514,7 @@
         },
       ],
       photo: [
-        { type: 'image', src: 'IMAGE OF ME.png', title: 'Portrait', action: null },
+        { type: 'coming-soon', title: 'Photos', action: null },
       ]
     };
 
@@ -524,7 +547,6 @@
         slide.className = 'paper-slide' + (idx === 0 ? ' active' : '');
 
         if (item.type === 'video') {
-          // video slides: full width video
           slide.style.flexBasis = '72%';
           const vid = document.createElement('video');
           vid.controls = true;
@@ -532,8 +554,18 @@
           vid.innerHTML = `<source src="${item.src}" type="video/mp4"/>`;
           slide.appendChild(vid);
 
+        } else if (item.type === 'coming-soon') {
+          // empty paper — no image, just text
+          slide.style.flexBasis = '72%';
+          const cs = document.createElement('div');
+          cs.className = 'coming-soon';
+          cs.innerHTML = `
+            <div class="coming-soon-text">Coming Soon</div>
+            <div class="coming-soon-sub">Photos will be added here</div>
+          `;
+          slide.appendChild(cs);
+
         } else {
-          // image/pdf/link slides: image left + info right
           const imgWrap = document.createElement('div');
           imgWrap.className = 'slide-img-wrap';
 
@@ -553,7 +585,6 @@
           imgWrap.appendChild(img);
           slide.appendChild(imgWrap);
 
-          // info panel
           if (item.title || item.action) {
             const info = document.createElement('div');
             info.className = 'slide-info';
