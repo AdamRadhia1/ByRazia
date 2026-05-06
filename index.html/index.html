@@ -2,10 +2,18 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>By Razia</title>
   <link rel="stylesheet" href="https://use.typekit.net/ogu1wcx.css">
   <style>
+    * {
+      -webkit-tap-highlight-color: transparent;
+      tap-highlight-color: transparent;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
     body {
       margin: 0;
       padding: 0;
@@ -13,6 +21,7 @@
       overflow: hidden;
       height: 100vh;
       width: 100vw;
+      touch-action: none;
     }
 
     .canvas {
@@ -106,11 +115,6 @@
       100% { opacity: 1; transform: rotate(0deg) scale(1); transform-origin: top center; }
     }
 
-    @keyframes swingClose {
-      0%   { opacity: 1; transform: rotate(0deg) scale(1); }
-      100% { opacity: 0; transform: rotate(15deg) scale(0.8); }
-    }
-
     .left-panel {
       position: absolute;
       top: 0;
@@ -119,6 +123,7 @@
       display: flex;
       flex-direction: column;
       z-index: 2;
+      pointer-events: none;
     }
 
     .pball {
@@ -160,6 +165,7 @@
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       background: rgba(0,0,0,0.35);
+      touch-action: auto;
     }
     .polaroid-modal.open { display: flex; }
 
@@ -188,9 +194,7 @@
       background: none;
       border: none;
       opacity: 0.7;
-      transition: opacity 0.2s;
     }
-    .polaroid-modal-close:hover { opacity: 1; }
 
     .paper-scene {
       display: none;
@@ -200,6 +204,7 @@
       align-items: center;
       justify-content: center;
       flex-direction: column;
+      touch-action: auto;
     }
 
     .paper-scene.open { display: flex; }
@@ -222,6 +227,7 @@
       justify-content: center;
       padding-bottom: 80px;
       box-sizing: border-box;
+      touch-action: auto;
     }
 
     .paper-viewport {
@@ -229,6 +235,7 @@
       height: 82%;
       overflow: hidden;
       position: relative;
+      touch-action: pan-x;
     }
 
     .paper-track {
@@ -258,27 +265,6 @@
       pointer-events: all;
     }
 
-    .slide-img-wrap {
-      flex: 0 0 auto;
-      height: 85%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .slide-img-wrap img {
-      height: 100%;
-      width: auto;
-      max-width: 340px;
-      object-fit: contain;
-      border-radius: 6px;
-      display: block;
-      cursor: pointer;
-      transition: transform 0.2s ease;
-    }
-
-    .slide-img-wrap img:hover { transform: scale(1.02); }
-
     .slide-caption {
       font-family: 'auger-mono', monospace;
       font-size: 11px;
@@ -293,51 +279,6 @@
     .polaroid-hidden {
       opacity: 0 !important;
       pointer-events: none !important;
-    }
-
-    .slide-info {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .slide-title {
-      font-family: 'auger-mono', monospace;
-      font-size: 16px;
-      font-weight: 500;
-      color: #2a1a0a;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      line-height: 1.3;
-    }
-
-    .slide-action {
-      font-family: 'auger-mono', monospace;
-      font-size: 11px;
-      color: #7a4a20;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 6px 12px;
-      border: 1px solid rgba(122,74,32,0.4);
-      border-radius: 20px;
-      background: rgba(255,255,255,0.35);
-      transition: background 0.2s ease, border-color 0.2s ease;
-      width: fit-content;
-    }
-
-    .slide-action:hover {
-      background: rgba(255,255,255,0.65);
-      border-color: rgba(122,74,32,0.7);
-    }
-
-    .slide-action::before {
-      content: '→';
-      font-size: 12px;
     }
 
     .coming-soon {
@@ -376,6 +317,7 @@
       display: flex;
       align-items: center;
       gap: 24px;
+      touch-action: auto;
     }
 
     .nav-arrow {
@@ -390,14 +332,8 @@
       justify-content: center;
       transition: background 0.2s ease, transform 0.15s ease;
       box-shadow: 0 2px 12px rgba(0,0,0,0.14);
+      touch-action: auto;
     }
-
-    .nav-arrow:hover {
-      background: rgba(255,255,255,0.98);
-      transform: scale(1.08);
-    }
-
-    .nav-arrow:active { transform: scale(0.95); }
 
     .nav-arrow svg {
       width: 16px;
@@ -432,10 +368,8 @@
       border: none;
       opacity: 0.6;
       z-index: 10;
-      transition: opacity 0.2s ease;
+      touch-action: auto;
     }
-
-    .paper-close:hover { opacity: 1; }
 
     .series-back {
       position: absolute;
@@ -450,9 +384,8 @@
       border: none;
       opacity: 0.6;
       z-index: 10;
-      transition: opacity 0.2s ease;
+      touch-action: auto;
     }
-    .series-back:hover { opacity: 1; }
 
     .pdf-viewer {
       display: none;
@@ -462,6 +395,7 @@
       z-index: 300;
       align-items: center;
       justify-content: center;
+      touch-action: auto;
     }
 
     .pdf-viewer.open { display: flex; }
@@ -485,141 +419,78 @@
       background: none;
       border: none;
       opacity: 0.7;
-      transition: opacity 0.2s ease;
+      touch-action: auto;
     }
 
-    .pdf-viewer-close:hover { opacity: 1; }
-
-    /* ── MOBILE STYLES ── */
+    /* ── MOBILE ── */
     @media (max-width: 768px) {
+      .left-panel { padding: 1.8rem 1.2rem 1rem 1.4rem; }
+      .title { font-size: 38px; white-space: normal; }
+      .desc { font-size: 10px; line-height: 1.6; }
 
-      .left-panel {
-        padding: 1.8rem 1.2rem 1rem 1.4rem;
-      }
-
-      .title {
-        font-size: 38px;
-        white-space: normal;
-      }
-
-      .desc {
-        font-size: 10px;
-        line-height: 1.6;
-      }
-
-      /* Design ball: top left */
-      #designWrap {
-        left: 5% !important;
-        top: 36% !important;
-      }
-
-      #designWrap #designHit {
-        width: 100px !important;
-        height: 100px !important;
-      }
-
+      #designWrap { left: 5% !important; top: 36% !important; }
+      #designWrap #designHit { width: 100px !important; height: 100px !important; }
       #designBall { width: 100px !important; }
       #designMid  { width: 100px !important; }
 
-      /* Video ball: bottom center — largest */
-      #videoWrap {
-        left: 50% !important;
-        top: 62% !important;
-        transform: translateX(-50%);
-      }
-
-      #videoWrap #videoHitWrap {
-        width: 180px !important;
-        height: 180px !important;
-      }
-
+      #videoWrap { left: 50% !important; top: 62% !important; transform: translateX(-50%); }
+      #videoWrap #videoHitWrap { width: 180px !important; height: 180px !important; }
       #videoBall { width: 100% !important; }
       #videoMid  { width: 100% !important; }
 
-      /* Photo ball: top right */
-      #photoWrap {
-        left: auto !important;
-        right: 5% !important;
-        top: 36% !important;
-      }
-
-      #photoWrap #photoHitWrap {
-        width: 80px !important;
-        height: 80px !important;
-      }
-
+      #photoWrap { left: auto !important; right: 5% !important; top: 36% !important; }
+      #photoWrap #photoHitWrap { width: 80px !important; height: 80px !important; }
       #photoBall { width: 80px !important; }
       #photoMid  { width: 80px !important; }
 
-      /* Pen decoration — hide on mobile */
-      #penDeco { display: none !important; }
-
-      /* White balls — smaller on mobile */
-      #whiteBallSmall { width: 6% !important; }
-      #whiteBallLarge { width: 14% !important; }
-
-      /* Polaroid — reposition for mobile */
-      #polaroid {
-        left: 2% !important;
-        top: 72% !important;
+      #penDeco {
+        display: block !important;
         width: 28% !important;
+        left: 60% !important;
+        top: 6% !important;
+        transform: rotate(-7deg) !important;
+        opacity: 1 !important;
+        animation: none !important;
       }
 
-      /* Paper sheet — full screen on mobile */
-      .paper-sheet {
-        width: 96vw !important;
-        height: 88vh !important;
-        padding-bottom: 70px !important;
+      #whiteBallSmall {
+        width: 7% !important;
+        left: 38% !important;
+        top: 38% !important;
+        opacity: 1 !important;
+        animation: none !important;
       }
 
-      .paper-viewport {
-        width: 95% !important;
-        height: 78% !important;
+      #whiteBallLarge {
+        width: 16% !important;
+        left: 5% !important;
+        top: 70% !important;
+        opacity: 1 !important;
+        animation: none !important;
       }
 
-      /* Slides wider on mobile */
-      .paper-slide {
-        flex: 0 0 88% !important;
+      #polaroid {
+        left: 55% !important;
+        top: 78% !important;
+        width: 30% !important;
+        opacity: 1 !important;
+        animation: none !important;
       }
 
-      /* Nav arrows bigger for touch */
-      .nav-arrow {
-        width: 52px !important;
-        height: 52px !important;
-      }
-
-      .nav-arrow svg {
-        width: 20px !important;
-        height: 20px !important;
-      }
-
-      /* PDF viewer full screen */
-      .pdf-viewer iframe {
-        width: 98vw !important;
-        height: 88vh !important;
-      }
-
-      /* Lightbox full screen */
-      #lightboxImg {
-        max-width: 96vw !important;
-        max-height: 80vh !important;
-      }
-
-      /* Polaroid modal */
-      .polaroid-modal-inner img {
-        max-width: 90vw !important;
-        max-height: 80vh !important;
-      }
-
-      .ball-label {
-        font-size: 9px !important;
-      }
+      .paper-sheet { width: 96vw !important; height: 88vh !important; padding-bottom: 70px !important; }
+      .paper-viewport { width: 95% !important; height: 78% !important; }
+      .paper-slide { flex: 0 0 88% !important; }
+      .nav-arrow { width: 52px !important; height: 52px !important; }
+      .nav-arrow svg { width: 20px !important; height: 20px !important; }
+      .pdf-viewer iframe { width: 98vw !important; height: 88vh !important; }
+      #lightboxImg { max-width: 96vw !important; max-height: 80vh !important; }
+      .polaroid-modal-inner img { max-width: 90vw !important; max-height: 80vh !important; }
+      .ball-label { font-size: 9px !important; }
     }
   </style>
 </head>
 <body>
   <div class="canvas">
-
     <div class="left-panel">
       <h1 class="title">BY RAZIA</h1>
       <p class="desc">
@@ -631,10 +502,10 @@
     </div>
 
     <img id="penDeco" src="pen.png" aria-hidden="true"
-      style="position:absolute; left:30%; top:-50%; width:72%; transform:rotate(-7deg); transform-origin:center center; pointer-events:auto; z-index:4; cursor:grab; opacity:0; animation:fadeIn 0.9s ease forwards; animation-delay:1400ms; filter: drop-shadow(4px 16px 10px rgba(0,0,0,0.30));">
+      style="position:absolute; left:30%; top:-50%; width:72%; transform:rotate(-7deg); transform-origin:center center; pointer-events:auto; z-index:4; cursor:grab; opacity:0; animation:fadeIn 0.9s ease forwards; animation-delay:1400ms; filter:drop-shadow(4px 16px 10px rgba(0,0,0,0.30));">
 
-    <div id="designWrap" style="position:absolute; left:11%; top:52%; display:flex; flex-direction:column; align-items:center; z-index:6; cursor:pointer; user-select:none;">
-      <div id="designHit" style="position:relative; width:160px; height:160px; display:flex; align-items:center; justify-content:center;">
+    <div id="designWrap" style="position:absolute; left:11%; top:52%; display:flex; flex-direction:column; align-items:center; z-index:6; touch-action:none;">
+      <div id="designHit" style="position:relative; width:160px; height:160px; display:flex; align-items:center; justify-content:center; touch-action:none;">
         <img id="designBall" class="pball" src="paper_ball_graphic.png" alt="design ball" style="width:160px; position:absolute;"/>
         <img id="designMid" class="pmidway" src="mid_way_paper_ball.png" alt="midway" style="width:160px; position:absolute; transform:scale(0.3) rotate(15deg);"/>
       </div>
@@ -642,18 +513,18 @@
     </div>
 
     <img id="whiteBallSmall" src="White paper ball.png" aria-hidden="true"
-      style="position:absolute; left:23%; top:56%; width:4%; pointer-events:auto; z-index:5; cursor:grab; opacity:0; animation:dropBounce 1s cubic-bezier(0.34,1.2,0.64,1) forwards; animation-delay:1800ms; filter: drop-shadow(2px 8px 6px rgba(0,0,0,0.28));">
+      style="position:absolute; left:23%; top:56%; width:4%; pointer-events:auto; z-index:5; cursor:grab; touch-action:none; opacity:0; animation:dropBounce 1s cubic-bezier(0.34,1.2,0.64,1) forwards; animation-delay:1800ms; filter:drop-shadow(2px 8px 6px rgba(0,0,0,0.28));">
 
-    <div id="videoWrap" style="position:absolute; left:44%; top:35%; display:flex; flex-direction:column; align-items:center; z-index:6; cursor:pointer; user-select:none;">
-      <div id="videoHitWrap" style="position:relative; width:300px; height:300px; display:flex; align-items:center; justify-content:center;">
+    <div id="videoWrap" style="position:absolute; left:44%; top:35%; display:flex; flex-direction:column; align-items:center; z-index:6; touch-action:none;">
+      <div id="videoHitWrap" style="position:relative; width:300px; height:300px; display:flex; align-items:center; justify-content:center; touch-action:none;">
         <img id="videoBall" class="pball" src="paper_ball_graphic.png" alt="video ball" style="width:100%;"/>
         <img id="videoMid" class="pmidway" src="mid_way_paper_ball.png" alt="midway" style="width:100%; transform:scale(0.3) rotate(15deg);"/>
       </div>
       <span class="ball-label" id="videoLabel">Video</span>
     </div>
 
-    <div id="photoWrap" style="position:absolute; left:76%; top:38%; display:flex; flex-direction:column; align-items:center; z-index:6; cursor:pointer; user-select:none;">
-      <div id="photoHitWrap" style="position:relative; width:120px; height:120px; display:flex; align-items:center; justify-content:center;">
+    <div id="photoWrap" style="position:absolute; left:76%; top:38%; display:flex; flex-direction:column; align-items:center; z-index:6; touch-action:none;">
+      <div id="photoHitWrap" style="position:relative; width:120px; height:120px; display:flex; align-items:center; justify-content:center; touch-action:none;">
         <img id="photoBall" class="pball" src="paper_ball_graphic.png" alt="photo ball" style="width:120px;"/>
         <img id="photoMid" class="pmidway" src="mid_way_paper_ball.png" alt="midway" style="width:120px; transform:scale(0.3) rotate(15deg);"/>
       </div>
@@ -661,36 +532,32 @@
     </div>
 
     <img id="whiteBallLarge" src="White paper ball.png" aria-hidden="true"
-      style="position:absolute; left:68%; top:66%; width:10%; pointer-events:auto; z-index:5; cursor:grab; opacity:0; animation:dropBounce 1s cubic-bezier(0.34,1.2,0.64,1) forwards; animation-delay:2200ms; filter: drop-shadow(4px 16px 12px rgba(0,0,0,0.30));">
-
+      style="position:absolute; left:68%; top:66%; width:10%; pointer-events:auto; z-index:5; cursor:grab; touch-action:none; opacity:0; animation:dropBounce 1s cubic-bezier(0.34,1.2,0.64,1) forwards; animation-delay:2200ms; filter:drop-shadow(4px 16px 12px rgba(0,0,0,0.30));">
   </div>
 
   <canvas class="grain"></canvas>
 
   <img id="polaroid" src="MY IMAGE.png" alt="polaroid"
-    style="position:fixed; left:26%; top:66%; width:18%; transform-origin:center top; pointer-events:auto; z-index:10001; cursor:pointer; opacity:0; animation:dropBounceTilted 1s cubic-bezier(0.34,1.2,0.64,1) forwards; animation-delay:2600ms; filter: drop-shadow(4px 20px 16px rgba(0,0,0,0.40));">
+    style="position:fixed; left:26%; top:66%; width:18%; transform-origin:center top; pointer-events:auto; z-index:10001; cursor:pointer; touch-action:none; opacity:0; animation:dropBounceTilted 1s cubic-bezier(0.34,1.2,0.64,1) forwards; animation-delay:2600ms; filter:drop-shadow(4px 20px 16px rgba(0,0,0,0.40));">
 
   <div class="polaroid-modal" id="polaroidModal">
     <div class="polaroid-modal-inner" id="polaroidInner" style="position:relative;">
       <button class="polaroid-modal-close" id="polaroidClose">✕ CLOSE</button>
       <img src="IMAGE OF ME 2.png" alt="Portrait" style="display:block;">
       <a href="mailto:adamradhia1@gmail.com" title="Email Radhia"
-         style="position:absolute; bottom:9%; left:18%; right:5%; height:9%; cursor:pointer; display:block; border-radius:4px;"
-         onmouseover="this.style.background='rgba(215,38,56,0.08)'"
-         onmouseout="this.style.background='transparent'">
-      </a>
+         style="position:absolute; bottom:9%; left:18%; right:5%; height:9%; cursor:pointer; display:block; border-radius:4px;"></a>
     </div>
   </div>
 
-  <div id="photoLightbox" style="display:none; position:fixed; inset:0; background:rgba(180,200,220,0.18); backdrop-filter:blur(24px); -webkit-backdrop-filter:blur(24px); z-index:99998; align-items:center; justify-content:center;">
-    <button id="lbPrev" style="position:absolute; left:24px; top:50%; transform:translateY(-50%); width:48px; height:48px; border-radius:50%; background:rgba(255,255,255,0.55); border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:background 0.2s; backdrop-filter:blur(8px);">
+  <div id="photoLightbox" style="display:none; position:fixed; inset:0; background:rgba(180,200,220,0.18); backdrop-filter:blur(24px); -webkit-backdrop-filter:blur(24px); z-index:99998; align-items:center; justify-content:center; touch-action:auto;">
+    <button id="lbPrev" style="position:absolute; left:24px; top:50%; transform:translateY(-50%); width:48px; height:48px; border-radius:50%; background:rgba(255,255,255,0.55); border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; touch-action:auto;">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
     </button>
     <img id="lightboxImg" src="" alt="" style="max-width:82vw; max-height:88vh; object-fit:contain; border-radius:12px; box-shadow:0 30px 80px rgba(0,0,0,0.25); display:block;">
-    <button id="lbNext" style="position:absolute; right:24px; top:50%; transform:translateY(-50%); width:48px; height:48px; border-radius:50%; background:rgba(255,255,255,0.55); border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:background 0.2s; backdrop-filter:blur(8px);">
+    <button id="lbNext" style="position:absolute; right:24px; top:50%; transform:translateY(-50%); width:48px; height:48px; border-radius:50%; background:rgba(255,255,255,0.55); border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; touch-action:auto;">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
     </button>
-    <button id="lightboxClose" style="position:absolute; top:20px; right:24px; font-family:'auger-mono',monospace; font-size:13px; color:#1a1a1a; letter-spacing:0.1em; cursor:pointer; background:rgba(255,255,255,0.55); border:none; padding:6px 12px; border-radius:20px; opacity:0.85; transition:opacity 0.2s; backdrop-filter:blur(8px);">✕ CLOSE</button>
+    <button id="lightboxClose" style="position:absolute; top:20px; right:24px; font-family:'auger-mono',monospace; font-size:13px; color:#1a1a1a; letter-spacing:0.1em; cursor:pointer; background:rgba(255,255,255,0.55); border:none; padding:6px 12px; border-radius:20px; opacity:0.85; touch-action:auto;">✕ CLOSE</button>
     <span id="lbCounter" style="position:absolute; bottom:20px; left:50%; transform:translateX(-50%); font-family:'auger-mono',monospace; font-size:11px; color:#1a1a1a; letter-spacing:0.1em; opacity:0.6;"></span>
   </div>
 
@@ -721,6 +588,25 @@
   </div>
 
   <script>
+    // ── Mobile detection ──
+    const isMobile = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+
+    // Force mobile elements visible immediately
+    if (isMobile) {
+      window.addEventListener('DOMContentLoaded', () => {
+        const overrides = [
+          { id: 'penDeco',        styles: { animation:'none', opacity:'1', top:'6%', left:'60%', width:'28%', transform:'rotate(-7deg)' } },
+          { id: 'whiteBallSmall', styles: { animation:'none', opacity:'1', left:'38%', top:'38%', width:'7%' } },
+          { id: 'whiteBallLarge', styles: { animation:'none', opacity:'1', left:'5%',  top:'70%', width:'16%' } },
+          { id: 'polaroid',       styles: { animation:'none', opacity:'1', left:'55%', top:'78%', width:'30%' } },
+        ];
+        overrides.forEach(({ id, styles }) => {
+          const el = document.getElementById(id);
+          if (el) Object.assign(el.style, styles);
+        });
+      });
+    }
+
     const scene     = document.getElementById('paperScene');
     const track     = document.getElementById('paperTrack');
     const closeBtn  = document.getElementById('paperClose');
@@ -735,7 +621,7 @@
 
     const content = {
       video: [
-        { type: 'youtube', src: 'https://www.youtube.com/embed/wO9s3tcu3qs', title: 'Video 1 — Kamala Rally' },
+        { type: 'youtube', src: 'https://www.youtube.com/embed/wO9s3tcu3qs', title: 'Kamala Rally' },
         { type: 'video-thumb', preview: 'https://img.youtube.com/vi/Tqk0LoxsA_Q/maxresdefault.jpg', href: 'https://youtu.be/Tqk0LoxsA_Q', title: 'Video 2' },
         { type: 'video-thumb', preview: 'https://img.youtube.com/vi/hzevMrX6kXo/maxresdefault.jpg', href: 'https://youtu.be/hzevMrX6kXo', title: 'Video 3' },
         { type: 'video-thumb', preview: 'https://img.youtube.com/vi/NPWKfqRxe8U/maxresdefault.jpg', href: 'https://youtu.be/NPWKfqRxe8U', title: 'Video 4' },
@@ -743,16 +629,16 @@
         { type: 'video-thumb', preview: 'https://img.youtube.com/vi/dQwXXr3yKA4/maxresdefault.jpg', href: 'https://www.youtube.com/watch?v=dQwXXr3yKA4&t=5s', title: 'Video 6' },
         { type: 'video-thumb', preview: 'https://img.youtube.com/vi/bdS-yEIqXHU/maxresdefault.jpg', href: 'https://www.youtube.com/watch?v=bdS-yEIqXHU', title: 'Video 7' },
         { type: 'video-thumb', preview: 'https://img.youtube.com/vi/denRluZMIUc/maxresdefault.jpg', href: 'https://youtu.be/denRluZMIUc', title: 'Video 8' },
-        { type: 'video-thumb', preview: 'https://img.youtube.com/vi/ngXrq_5Nu0Y/maxresdefault.jpg', href: 'https://youtu.be/ngXrq_5Nu0Y', title: 'Video 9 — Zanzibari Bridal Shower' },
+        { type: 'video-thumb', preview: 'https://img.youtube.com/vi/ngXrq_5Nu0Y/maxresdefault.jpg', href: 'https://youtu.be/ngXrq_5Nu0Y', title: 'Zanzibari Bridal Shower' },
       ],
       design: [
         { type: 'full-image', src: 'Africans Map DC.png', title: 'Africans in the District' },
-        { type: 'link', preview: 'Screenshot 2026-04-28 at 5.10.43 PM.png', href: 'https://adamradhia1.github.io/HW-2-Game-Design/', title: 'Ghost Runner', action: 'Click to play game' },
-        { type: 'link', preview: 'Screenshot 2026-05-05 at 5.09.31 PM.png', href: 'https://www.figma.com/proto/R1eueYCHwPLyr77NdsDU3Y/University-of-ZNZ?t=dPfpOA7jLfmjB7hC-1&scaling=contain&content-scaling=fixed&page-id=0%3A1&node-id=286-177&starting-point-node-id=3%3A2', title: 'The State University of Zanzibar Website Design' },
+        { type: 'link', preview: 'Screenshot 2026-04-28 at 5.10.43 PM.png', href: 'https://adamradhia1.github.io/HW-2-Game-Design/', title: 'Ghost Runner' },
+        { type: 'link', preview: 'Screenshot 2026-05-05 at 5.09.31 PM.png', href: 'https://www.figma.com/proto/R1eueYCHwPLyr77NdsDU3Y/University-of-ZNZ?t=dPfpOA7jLfmjB7hC-1&scaling=contain&content-scaling=fixed&page-id=0%3A1&node-id=286-177&starting-point-node-id=3%3A2', title: 'Zanzibar University' },
         { type: 'link', preview: 'Screenshot 2026-05-05 at 5.25.33 PM.PNG', href: 'https://www.figma.com/make/jswOZ1eeKOeL1y3Ew5KTEv/International-Freight-Final?fullscreen=1&t=UIlF8Y79RHIuSYxz-1&preview-route=%2Fhome', title: 'International Freight' },
         { type: 'link', preview: 'BEES AND TEA.png', href: 'https://www.figma.com/deck/HwIPepIXw8qsrw9nYgdAGy/Radhia-Adam---Project-3---Slides?node-id=1-97&t=0aVcESkingWg7s6G-1&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1', title: 'Bees & Tea' },
         { type: 'full-image', src: 'Manifesto Final.png', title: 'Manifesto' },
-        { type: 'link', preview: 'GlobalFoodie.png', href: 'https://adamradhia1.github.io/GlobalFoodie/', title: 'Global Foodie Website Design' },
+        { type: 'link', preview: 'GlobalFoodie.png', href: 'https://adamradhia1.github.io/GlobalFoodie/', title: 'Global Foodie' },
       ],
       photo: [
         { type: 'series', name: 'Ilham Series', date: 'May 2026', cover: 'Ilham 5.png', photos: ['Ilham 5.png','Ilham 6.png','Ilham 1.jpg','Ilham 2.jpg','Ilham 3.jpg','Ilham 4.jpg'] },
@@ -761,9 +647,7 @@
     };
 
     function setActiveSlide() {
-      document.querySelectorAll('.paper-slide').forEach((s, i) => {
-        s.classList.toggle('active', i === currentSlide);
-      });
+      document.querySelectorAll('.paper-slide').forEach((s, i) => s.classList.toggle('active', i === currentSlide));
       counter.textContent = (currentSlide + 1) + ' / ' + slides.length;
       track.style.transform = `translateX(${centeredOffset(currentSlide)}px)`;
     }
@@ -771,18 +655,13 @@
     function centeredOffset(idx) {
       const vpW = track.parentElement.offsetWidth;
       const slideW = vpW * 0.72 + 24;
-      const initial = (vpW - vpW * 0.72) / 2;
-      return initial - idx * slideW;
+      return (vpW - vpW * 0.72) / 2 - idx * slideW;
     }
 
     function goTo(idx) {
       currentSlide = Math.max(0, Math.min(idx, slides.length - 1));
       track.style.transform = `translateX(${centeredOffset(currentSlide)}px)`;
       setActiveSlide();
-      track.querySelectorAll('video').forEach((v, i) => {
-        if (i === currentSlide) v.play().catch(() => {});
-        else v.pause();
-      });
     }
 
     const seriesBackBtn = document.getElementById('seriesBack');
@@ -796,21 +675,18 @@
       seriesArray.forEach((item, idx) => {
         const slide = document.createElement('div');
         slide.className = 'paper-slide' + (idx === 0 ? ' active' : '');
-        slide.style.cssText = 'flex: 0 0 72%; display:flex; align-items:center; justify-content:center;';
+        slide.style.cssText = 'flex:0 0 72%; display:flex; align-items:center; justify-content:center;';
         const card = document.createElement('div');
-        card.style.cssText = 'position:relative; width:300px; height:420px; border-radius:10px; overflow:hidden; cursor:pointer; box-shadow:0 16px 50px rgba(0,0,0,0.28); flex-shrink:0;';
+        card.style.cssText = 'position:relative; width:260px; height:380px; border-radius:10px; overflow:hidden; cursor:pointer; box-shadow:0 16px 50px rgba(0,0,0,0.28);';
         const coverImg = document.createElement('img');
-        coverImg.src = item.cover;
-        coverImg.alt = item.name;
+        coverImg.src = item.cover; coverImg.alt = item.name;
         coverImg.style.cssText = 'width:100%; height:100%; object-fit:cover; display:block;';
         const tint = document.createElement('div');
         tint.style.cssText = 'position:absolute; inset:0; background:rgba(0,0,0,0.18);';
         const badge = document.createElement('div');
         badge.style.cssText = 'position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); background:rgba(180,230,240,0.92); padding:8px 18px; white-space:nowrap; text-align:center;';
-        badge.innerHTML = `<div style="font-family:'auger-mono',monospace; font-size:13px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:#111;">${item.name}</div><div style="font-family:'auger-mono',monospace; font-size:10px; letter-spacing:0.1em; color:#555; margin-top:3px;">${item.date}</div>`;
-        card.appendChild(coverImg);
-        card.appendChild(tint);
-        card.appendChild(badge);
+        badge.innerHTML = `<div style="font-family:'auger-mono',monospace;font-size:13px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:#111;">${item.name}</div><div style="font-family:'auger-mono',monospace;font-size:10px;letter-spacing:0.1em;color:#555;margin-top:3px;">${item.date}</div>`;
+        card.appendChild(coverImg); card.appendChild(tint); card.appendChild(badge);
         card.addEventListener('click', () => { if (slide.classList.contains('active')) openSeriesPhotos(item); });
         slide.appendChild(card);
         track.appendChild(slide);
@@ -828,11 +704,10 @@
       slides.forEach((item, idx) => {
         const slide = document.createElement('div');
         slide.className = 'paper-slide' + (idx === 0 ? ' active' : '');
-        slide.style.cssText = 'flex: 0 0 72%; display:flex; align-items:center; justify-content:center; cursor:zoom-in;';
+        slide.style.cssText = 'flex:0 0 72%; display:flex; align-items:center; justify-content:center;';
         const img = document.createElement('img');
-        img.src = item.src;
-        img.alt = item.src;
-        img.style.cssText = 'max-width:100%; max-height:100%; width:auto; height:auto; object-fit:contain; border-radius:8px; box-shadow:0 12px 40px rgba(0,0,0,0.25); display:block;';
+        img.src = item.src; img.alt = item.src;
+        img.style.cssText = 'max-width:100%; max-height:100%; object-fit:contain; border-radius:8px; box-shadow:0 12px 40px rgba(0,0,0,0.25); display:block;';
         img.addEventListener('click', () => openLightbox(item.src, photoSrcs, idx));
         slide.appendChild(img);
         track.appendChild(slide);
@@ -840,14 +715,10 @@
       setActiveSlide();
     }
 
-    seriesBackBtn.addEventListener('click', () => {
-      if (currentOpen === 'photo') buildSeriesCovers(content.photo);
-    });
+    seriesBackBtn.addEventListener('click', () => { if (currentOpen === 'photo') buildSeriesCovers(content.photo); });
 
     function buildSlides(name) {
-      currentSlide = 0;
-      track.innerHTML = '';
-      track.style.transform = '';
+      currentSlide = 0; track.innerHTML = ''; track.style.transform = '';
       seriesBackBtn.style.display = 'none';
       if (name === 'photo') { buildSeriesCovers(content.photo); return; }
       slides = content[name];
@@ -855,57 +726,42 @@
         const slide = document.createElement('div');
         slide.className = 'paper-slide' + (idx === 0 ? ' active' : '');
         if (item.type === 'youtube') {
-          slide.style.cssText += '; flex: 0 0 72%; overflow: hidden; border-radius: 8px;';
+          slide.style.cssText += 'flex:0 0 72%; overflow:hidden; border-radius:8px;';
           const frame = document.createElement('iframe');
           frame.src = item.src;
-          frame.style.cssText = 'width:100%; height:100%; border:none; border-radius:8px; box-shadow:0 12px 40px rgba(0,0,0,0.25); display:block;';
+          frame.style.cssText = 'width:100%; height:100%; border:none; border-radius:8px; display:block;';
           frame.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
           frame.allowFullscreen = true;
           slide.appendChild(frame);
           if (item.title) { const cap = document.createElement('div'); cap.className = 'slide-caption'; cap.textContent = item.title; slide.appendChild(cap); }
         } else if (item.type === 'video-thumb') {
-          slide.style.cssText += '; flex: 0 0 72%; overflow: hidden; border-radius: 8px; cursor: pointer; position: relative;';
+          slide.style.cssText += 'flex:0 0 72%; overflow:hidden; border-radius:8px; cursor:pointer;';
           const wrap = document.createElement('div');
           wrap.style.cssText = 'position:relative; width:100%; height:100%; border-radius:8px; overflow:hidden; box-shadow:0 12px 40px rgba(0,0,0,0.25);';
           wrap.addEventListener('click', () => window.open(item.href, '_blank'));
           const img = document.createElement('img');
-          img.src = item.preview;
-          img.alt = item.title;
+          img.src = item.preview; img.alt = item.title;
           img.style.cssText = 'width:100%; height:100%; object-fit:cover; display:block;';
           wrap.appendChild(img);
           const bar = document.createElement('div');
           bar.style.cssText = 'position:absolute; bottom:0; left:0; right:0; height:52px; background:rgba(0,0,0,0.85); display:flex; align-items:center; padding:0 14px; gap:12px; box-sizing:border-box;';
-          bar.innerHTML = `<svg width="42" height="30" viewBox="0 0 42 30" fill="none"><rect width="42" height="30" rx="6" fill="#FF0000"/><polygon points="16,8 16,22 30,15" fill="white"/></svg><span style="color:#fff;font-family:Roboto,Arial,sans-serif;font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${item.title}</span><span style="margin-left:auto;color:#aaa;font-family:Roboto,Arial,sans-serif;font-size:11px;white-space:nowrap;">Watch on YouTube</span>`;
+          bar.innerHTML = `<svg width="42" height="30" viewBox="0 0 42 30" fill="none"><rect width="42" height="30" rx="6" fill="#FF0000"/><polygon points="16,8 16,22 30,15" fill="white"/></svg><span style="color:#fff;font-family:Roboto,Arial,sans-serif;font-size:13px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${item.title}</span>`;
           wrap.appendChild(bar);
           slide.appendChild(wrap);
-          if (item.title) { const cap = document.createElement('div'); cap.className = 'slide-caption'; cap.textContent = item.title; slide.appendChild(cap); }
-        } else if (item.type === 'video') {
-          slide.style.cssText += '; flex: 0 0 72%; overflow: hidden; border-radius: 8px;';
-          const vid = document.createElement('video');
-          vid.controls = true;
-          vid.style.cssText = 'width:100%; height:100%; object-fit:cover; border-radius:8px; box-shadow:0 12px 40px rgba(0,0,0,0.25); display:block;';
-          vid.innerHTML = `<source src="${item.src}" type="video/mp4"/>`;
-          slide.appendChild(vid);
         } else if (item.type === 'full-image') {
-          slide.style.cssText += '; flex: 0 0 72%; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; cursor:zoom-in;';
+          slide.style.cssText += 'flex:0 0 72%; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; cursor:zoom-in;';
           const img = document.createElement('img');
-          img.src = item.src;
-          img.alt = item.title || '';
-          img.style.cssText = 'max-width:100%; max-height:88%; width:auto; height:auto; object-fit:contain; border-radius:6px; box-shadow:0 12px 40px rgba(0,0,0,0.2); display:block;';
+          img.src = item.src; img.alt = item.title || '';
+          img.style.cssText = 'max-width:100%; max-height:88%; object-fit:contain; border-radius:6px; box-shadow:0 12px 40px rgba(0,0,0,0.2); display:block;';
           img.addEventListener('click', () => openLightbox(item.src));
           slide.appendChild(img);
           if (item.title) { const cap = document.createElement('div'); cap.className = 'slide-caption'; cap.textContent = item.title; slide.appendChild(cap); }
         } else {
-          slide.style.cssText += '; flex:0 0 72%; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px;';
+          slide.style.cssText += 'flex:0 0 72%; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px;';
           const img = document.createElement('img');
-          img.src = item.preview || item.src;
-          img.alt = item.title || '';
-          img.style.cssText = 'max-width:100%; max-height:88%; width:auto; height:auto; object-fit:contain; border-radius:6px; display:block; cursor:pointer; box-shadow:0 12px 40px rgba(0,0,0,0.18);';
-          if (item.type === 'pdf-preview') {
-            img.addEventListener('click', () => { pdfFrame.src = item.pdf + '#toolbar=0&navpanes=0'; pdfViewer.classList.add('open'); });
-          } else if (item.type === 'link') {
-            img.addEventListener('click', () => window.open(item.href, '_blank'));
-          }
+          img.src = item.preview || item.src; img.alt = item.title || '';
+          img.style.cssText = 'max-width:100%; max-height:88%; object-fit:contain; border-radius:6px; display:block; cursor:pointer; box-shadow:0 12px 40px rgba(0,0,0,0.18);';
+          if (item.type === 'link') img.addEventListener('click', () => window.open(item.href, '_blank'));
           slide.appendChild(img);
           if (item.title) { const cap = document.createElement('div'); cap.className = 'slide-caption'; cap.textContent = item.title; slide.appendChild(cap); }
         }
@@ -916,8 +772,7 @@
 
     function openScene(name) {
       if (currentOpen && currentOpen !== name) closeScene();
-      currentOpen = name;
-      buildSlides(name);
+      currentOpen = name; buildSlides(name);
       scene.classList.add('open');
       document.getElementById('polaroid').classList.add('polaroid-hidden');
     }
@@ -932,251 +787,125 @@
     document.getElementById('navPrev').addEventListener('click', () => goTo(currentSlide - 1));
     document.getElementById('navNext').addEventListener('click', () => goTo(currentSlide + 1));
     closeBtn.addEventListener('click', closeScene);
-
     pdfVClose.addEventListener('click', () => { pdfViewer.classList.remove('open'); pdfFrame.src = ''; });
     pdfViewer.addEventListener('click', (e) => { if (e.target === pdfViewer) { pdfViewer.classList.remove('open'); pdfFrame.src = ''; } });
 
+    // ── DRAG SYSTEM — handles both mouse and touch ──
+    function playDragSound() {
+      try { const s = new Audio('334200__wasabiwielder__paper-crumple-3.wav'); s.volume = 0.6; s.play(); } catch(e) {}
+    }
+
+    function makeDraggable(el, opts) {
+      // opts: { onTap, getPos, setPos }
+      let active = false, moved = false, soundPlayed = false;
+      let x0, y0, elX0, elY0;
+      const THRESH = 6;
+
+      function getElPos() {
+        if (opts.getPos) return opts.getPos();
+        return { x: el.offsetLeft, y: el.offsetTop };
+      }
+
+      function setElPos(x, y) {
+        if (opts.setPos) { opts.setPos(x, y); return; }
+        el.style.left = x + 'px';
+        el.style.top  = y + 'px';
+      }
+
+      function start(px, py) {
+        active = true; moved = false; soundPlayed = false;
+        x0 = px; y0 = py;
+        const pos = getElPos();
+        elX0 = pos.x; elY0 = pos.y;
+      }
+
+      function move(px, py) {
+        if (!active) return;
+        const dx = px - x0, dy = py - y0;
+        if (!moved && Math.sqrt(dx*dx + dy*dy) > THRESH) {
+          moved = true;
+          if (!soundPlayed) { soundPlayed = true; playDragSound(); }
+        }
+        if (moved) setElPos(elX0 + dx, elY0 + dy);
+      }
+
+      function end() {
+        if (!active) return;
+        active = false;
+        if (!moved && opts.onTap) opts.onTap();
+      }
+
+      // Mouse events
+      el.addEventListener('mousedown', (e) => { start(e.clientX, e.clientY); e.preventDefault(); });
+      window.addEventListener('mousemove', (e) => { if (active) move(e.clientX, e.clientY); });
+      window.addEventListener('mouseup', end);
+
+      // Touch events — attached to element, not document
+      el.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const t = e.touches[0];
+        start(t.clientX, t.clientY);
+      }, { passive: false, capture: true });
+
+      el.addEventListener('touchmove', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (!active) return;
+        const t = e.touches[0];
+        move(t.clientX, t.clientY);
+      }, { passive: false, capture: true });
+
+      el.addEventListener('touchend', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        end();
+      }, { passive: false, capture: true });
+
+      el.addEventListener('touchcancel', () => { active = false; });
+    }
+
+    // ── Paper balls ──
     const balls = {
-      design: { ball: document.getElementById('designBall'), mid: document.getElementById('designMid'), hit: document.getElementById('designHit'),    wrap: document.getElementById('designWrap'),  label: document.getElementById('designLabel'), delay: 1600 },
-      video:  { ball: document.getElementById('videoBall'),  mid: document.getElementById('videoMid'),  hit: document.getElementById('videoHitWrap'), wrap: document.getElementById('videoWrap'),   label: document.getElementById('videoLabel'),  delay: 2000 },
-      photo:  { ball: document.getElementById('photoBall'),  mid: document.getElementById('photoMid'),  hit: document.getElementById('photoHitWrap'), wrap: document.getElementById('photoWrap'),   label: document.getElementById('photoLabel'),  delay: 2400 },
+      design: { ball: document.getElementById('designBall'), mid: document.getElementById('designMid'), hit: document.getElementById('designHit'), wrap: document.getElementById('designWrap'), label: document.getElementById('designLabel'), delay: 1600 },
+      video:  { ball: document.getElementById('videoBall'),  mid: document.getElementById('videoMid'),  hit: document.getElementById('videoHitWrap'), wrap: document.getElementById('videoWrap'),  label: document.getElementById('videoLabel'),  delay: 2000 },
+      photo:  { ball: document.getElementById('photoBall'),  mid: document.getElementById('photoMid'),  hit: document.getElementById('photoHitWrap'), wrap: document.getElementById('photoWrap'),  label: document.getElementById('photoLabel'),  delay: 2400 },
     };
 
-    function handleBallAction(name, b) {
+    function handleBallTap(name, b) {
       if (currentOpen === name) {
         closeScene();
-        b.ball.style.opacity = '0';
-        b.ball.classList.remove('drop');
-        setTimeout(() => {
-          b.ball.classList.add('drop');
-          b.label.classList.add('show');
-          new Audio('Paper Ball drop.wav').play().catch(() => {});
-        }, 80);
+        b.ball.style.opacity = '0'; b.ball.classList.remove('drop');
+        setTimeout(() => { b.ball.classList.add('drop'); b.label.classList.add('show'); try { new Audio('Paper Ball drop.wav').play(); } catch(e){} }, 80);
       } else {
         b.label.classList.remove('show');
-        new Audio('paper ball sound.mp3').play().catch(() => {});
-        setTimeout(() => {
-          b.ball.style.opacity = '0';
-          b.mid.style.opacity = '1';
-          b.mid.style.transform = 'scale(1) rotate(-5deg)';
-        }, 200);
-        setTimeout(() => {
-          b.mid.style.opacity = '0';
-          openScene(name);
-        }, 500);
+        try { new Audio('paper ball sound.mp3').play(); } catch(e){}
+        setTimeout(() => { b.ball.style.opacity = '0'; b.mid.style.opacity = '1'; b.mid.style.transform = 'scale(1) rotate(-5deg)'; }, 200);
+        setTimeout(() => { b.mid.style.opacity = '0'; openScene(name); }, 500);
       }
     }
 
-    function playDragSound() {
-      const snd = new Audio('334200__wasabiwielder__paper-crumple-3.wav');
-      snd.volume = 0.6;
-      snd.play().catch(() => {});
-    }
-
-    // ── Universal drag + tap for balls (mouse AND touch) ──
     Object.entries(balls).forEach(([name, b]) => {
       setTimeout(() => {
         b.ball.classList.add('drop');
         setTimeout(() => b.label.classList.add('show'), 900);
-        new Audio('Paper Ball drop.wav').play().catch(() => {});
+        try { new Audio('Paper Ball drop.wav').play(); } catch(e){}
       }, b.delay);
 
-      let isDragging = false, didMove = false;
-      let startX, startY, origLeft, origTop;
-      const DRAG_THRESHOLD = 5;
-
-      function onStart(clientX, clientY) {
-        isDragging = true;
-        didMove = false;
-        startX = clientX;
-        startY = clientY;
-        origLeft = b.wrap.offsetLeft;
-        origTop  = b.wrap.offsetTop;
-        b.wrap.style.transition = 'none';
-      }
-
-      function onMove(clientX, clientY) {
-        if (!isDragging) return;
-        const dx = clientX - startX;
-        const dy = clientY - startY;
-        if (!didMove && (Math.abs(dx) > DRAG_THRESHOLD || Math.abs(dy) > DRAG_THRESHOLD)) {
-          didMove = true;
-          playDragSound();
+      makeDraggable(b.hit, {
+        onTap: () => handleBallTap(name, b),
+        getPos: () => ({ x: b.wrap.offsetLeft, y: b.wrap.offsetTop }),
+        setPos: (x, y) => {
+          b.wrap.style.left = x + 'px';
+          b.wrap.style.top  = y + 'px';
           b.label.classList.remove('show');
         }
-        if (didMove) {
-          b.wrap.style.left = (origLeft + dx) + 'px';
-          b.wrap.style.top  = (origTop  + dy) + 'px';
-        }
-      }
-
-      function onEnd() {
-        if (!isDragging) return;
-        isDragging = false;
-        if (didMove) {
-          if (currentOpen !== name) b.label.classList.add('show');
-        } else {
-          handleBallAction(name, b);
-        }
-      }
-
-      // Mouse
-      b.hit.addEventListener('mousedown', (e) => { onStart(e.clientX, e.clientY); e.preventDefault(); });
-      document.addEventListener('mousemove', (e) => onMove(e.clientX, e.clientY));
-      document.addEventListener('mouseup', onEnd);
-
-      // Touch
-      b.hit.addEventListener('touchstart', (e) => {
-        const t = e.touches[0];
-        onStart(t.clientX, t.clientY);
-        e.preventDefault();
-      }, { passive: false });
-
-      b.hit.addEventListener('touchmove', (e) => {
-        const t = e.touches[0];
-        onMove(t.clientX, t.clientY);
-        e.preventDefault();
-      }, { passive: false });
-
-      b.hit.addEventListener('touchend', onEnd);
+      });
     });
 
-    // ── Universal draggable for white balls + pen (mouse + touch) ──
-    function makeUniversalDraggable(el) {
-      let dragging = false, soundPlayed = false;
-      let startX, startY, origLeft, origTop;
-
-      function onStart(clientX, clientY) {
-        dragging = true;
-        soundPlayed = false;
-        startX = clientX;
-        startY = clientY;
-        origLeft = el.offsetLeft;
-        origTop  = el.offsetTop;
-        el.style.transition = 'none';
-      }
-
-      function onMove(clientX, clientY) {
-        if (!dragging) return;
-        const dx = clientX - startX;
-        const dy = clientY - startY;
-        if (!soundPlayed && (Math.abs(dx) > 3 || Math.abs(dy) > 3)) {
-          soundPlayed = true;
-          playDragSound();
-        }
-        el.style.left = (origLeft + dx) + 'px';
-        el.style.top  = (origTop  + dy) + 'px';
-      }
-
-      function onEnd() {
-        if (!dragging) return;
-        dragging = false;
-      }
-
-      el.addEventListener('mousedown', (e) => { onStart(e.clientX, e.clientY); e.preventDefault(); });
-      document.addEventListener('mousemove', (e) => onMove(e.clientX, e.clientY));
-      document.addEventListener('mouseup', onEnd);
-
-      el.addEventListener('touchstart', (e) => { const t = e.touches[0]; onStart(t.clientX, t.clientY); e.preventDefault(); }, { passive: false });
-      el.addEventListener('touchmove',  (e) => { const t = e.touches[0]; onMove(t.clientX, t.clientY); e.preventDefault(); }, { passive: false });
-      el.addEventListener('touchend', onEnd);
-    }
-
-    makeUniversalDraggable(document.getElementById('whiteBallSmall'));
-    makeUniversalDraggable(document.getElementById('whiteBallLarge'));
-
-    // ── Carousel touch swipe ──
-    let touchStartX = 0;
-    track.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; }, { passive: true });
-    track.addEventListener('touchend', (e) => {
-      const dx = e.changedTouches[0].clientX - touchStartX;
-      if (Math.abs(dx) > 40) {
-        if (dx < 0) goTo(currentSlide + 1);
-        else goTo(currentSlide - 1);
-      }
-    });
-
-    // ── Lightbox ──
-    let _lbPhotos = [], _lbIdx = 0;
-
-    function openLightbox(src, photos, idx) {
-      _lbPhotos = photos && photos.length ? photos : [src];
-      _lbIdx    = idx !== undefined ? idx : 0;
-      _renderLightbox();
-      document.getElementById('photoLightbox').style.display = 'flex';
-    }
-
-    function _renderLightbox() {
-      document.getElementById('lightboxImg').src = _lbPhotos[_lbIdx];
-      const ctr = document.getElementById('lbCounter');
-      if (_lbPhotos.length > 1) ctr.textContent = (_lbIdx + 1) + ' / ' + _lbPhotos.length;
-      else ctr.textContent = '';
-      document.getElementById('lbPrev').style.display = _lbPhotos.length > 1 ? 'flex' : 'none';
-      document.getElementById('lbNext').style.display = _lbPhotos.length > 1 ? 'flex' : 'none';
-    }
-
-    function closeLightbox() {
-      document.getElementById('photoLightbox').style.display = 'none';
-      document.getElementById('lightboxImg').src = '';
-    }
-
-    // ── Drawing canvas ──
-    const drawCanvas = document.getElementById('drawCanvas');
-    const drawCtx    = drawCanvas.getContext('2d');
-    let drawMode = false, isDrawing = false;
-
-    function resizeDrawCanvas() {
-      const tmp = drawCtx.getImageData(0, 0, drawCanvas.width, drawCanvas.height);
-      drawCanvas.width  = window.innerWidth;
-      drawCanvas.height = window.innerHeight;
-      drawCtx.putImageData(tmp, 0, 0);
-    }
-    resizeDrawCanvas();
-    window.addEventListener('resize', resizeDrawCanvas);
-
-    function setDrawMode(on) {
-      drawMode = on;
-      drawCanvas.style.pointerEvents = 'none';
-      const penEl = document.getElementById('penDeco');
-      if (!penEl) return;
-      penEl.style.cursor = on ? 'crosshair' : 'grab';
-      penEl.style.filter = on
-        ? 'drop-shadow(0 0 8px rgba(215,38,56,0.9)) drop-shadow(4px 16px 10px rgba(0,0,0,0.30))'
-        : 'drop-shadow(4px 16px 10px rgba(0,0,0,0.30))';
-    }
-
-    const penEl = document.getElementById('penDeco');
-    if (penEl) {
-      let penDown = false, penSoundPlayed = false;
-      let penStartX, penStartY, penOrigLeft, penOrigTop;
-
-      penEl.addEventListener('dblclick', (e) => { e.preventDefault(); setDrawMode(!drawMode); });
-
-      penEl.addEventListener('mousedown', (e) => {
-        penDown = true; penSoundPlayed = false;
-        penStartX = e.clientX; penStartY = e.clientY;
-        penOrigLeft = penEl.offsetLeft; penOrigTop = penEl.offsetTop;
-        penEl.style.transition = 'none';
-        if (drawMode) { drawCtx.beginPath(); drawCtx.moveTo(e.clientX, e.clientY); }
-        e.preventDefault();
-      });
-
-      document.addEventListener('mousemove', (e) => {
-        if (!penDown) return;
-        const dx = e.clientX - penStartX, dy = e.clientY - penStartY;
-        if (!penSoundPlayed && (Math.abs(dx) > 3 || Math.abs(dy) > 3)) { penSoundPlayed = true; playDragSound(); }
-        penEl.style.left = (penOrigLeft + dx) + 'px';
-        penEl.style.top  = (penOrigTop  + dy) + 'px';
-        if (drawMode) {
-          drawCtx.strokeStyle = '#1c1c1c'; drawCtx.lineWidth = 3;
-          drawCtx.lineCap = 'round'; drawCtx.lineJoin = 'round'; drawCtx.globalAlpha = 0.88;
-          drawCtx.lineTo(e.clientX, e.clientY); drawCtx.stroke();
-          drawCtx.beginPath(); drawCtx.moveTo(e.clientX, e.clientY);
-        }
-      });
-
-      document.addEventListener('mouseup', () => { if (penDown) { penDown = false; } });
-    }
+    // ── White balls ──
+    makeDraggable(document.getElementById('whiteBallSmall'), {});
+    makeDraggable(document.getElementById('whiteBallLarge'), {});
 
     // ── Polaroid ──
     const polaroid      = document.getElementById('polaroid');
@@ -1191,77 +920,145 @@
       polaroidInner.style.animation = 'swingOpen 0.7s cubic-bezier(0.34,1.2,0.64,1) forwards';
     }
     function closePolaroidModal() { polaroidModal.classList.remove('open'); }
-
     polaroidClose.addEventListener('click', (e) => { e.stopPropagation(); closePolaroidModal(); });
     polaroidModal.addEventListener('click', (e) => { if (e.target === polaroidModal) closePolaroidModal(); });
 
-    let _down = false, _moved = false, _mx, _my, _l0, _t0;
-
-    function polaroidStart(clientX, clientY) {
-      _down = true; _moved = false;
-      _mx = clientX; _my = clientY;
-      const cs = window.getComputedStyle(polaroid);
-      _l0 = parseFloat(cs.left); _t0 = parseFloat(cs.top);
-      polaroid.style.left = _l0 + 'px'; polaroid.style.top = _t0 + 'px';
-    }
-
-    function polaroidMove(clientX, clientY) {
-      if (!_down) return;
-      const dx = clientX - _mx, dy = clientY - _my;
-      if (Math.abs(dx) > 3 || Math.abs(dy) > 3) { if (!_moved) playDragSound(); _moved = true; }
-      if (_moved) {
-        polaroid.style.left = (_l0 + dx) + 'px';
-        polaroid.style.top  = (_t0 + dy) + 'px';
-        polaroid.style.cursor = 'grabbing';
-      }
-    }
-
-    function polaroidEnd() {
-      if (!_down) return;
-      _down = false;
-      polaroid.style.cursor = 'pointer';
-      if (!_moved) openPolaroidModal();
-    }
-
-    polaroid.addEventListener('mousedown', (e) => { polaroidStart(e.clientX, e.clientY); e.preventDefault(); });
-    document.addEventListener('mousemove', (e) => polaroidMove(e.clientX, e.clientY));
-    document.addEventListener('mouseup', polaroidEnd);
-
-    polaroid.addEventListener('touchstart', (e) => { const t = e.touches[0]; polaroidStart(t.clientX, t.clientY); e.preventDefault(); }, { passive: false });
-    polaroid.addEventListener('touchmove',  (e) => { const t = e.touches[0]; polaroidMove(t.clientX, t.clientY); e.preventDefault(); }, { passive: false });
-    polaroid.addEventListener('touchend', polaroidEnd);
-
-    // ── Keyboard ──
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        closeLightbox(); closePolaroidModal();
-        drawCtx.clearRect(0, 0, drawCanvas.width, drawCanvas.height);
-      }
-      const lb = document.getElementById('photoLightbox');
-      if (lb.style.display === 'flex') {
-        if (e.key === 'ArrowRight') { _lbIdx = Math.min(_lbPhotos.length - 1, _lbIdx + 1); _renderLightbox(); }
-        if (e.key === 'ArrowLeft')  { _lbIdx = Math.max(0, _lbIdx - 1); _renderLightbox(); }
+    makeDraggable(polaroid, {
+      onTap: openPolaroidModal,
+      getPos: () => {
+        const cs = window.getComputedStyle(polaroid);
+        return { x: parseFloat(cs.left), y: parseFloat(cs.top) };
       }
     });
 
-    // Lightbox events
+    // ── Pen ──
+    const penEl     = document.getElementById('penDeco');
+    const drawCanvas = document.getElementById('drawCanvas');
+    const drawCtx   = drawCanvas.getContext('2d');
+    let drawMode    = false;
+    let lastTap     = 0;
+
+    function resizeDrawCanvas() {
+      const tmp = drawCtx.getImageData(0, 0, drawCanvas.width, drawCanvas.height);
+      drawCanvas.width = window.innerWidth; drawCanvas.height = window.innerHeight;
+      drawCtx.putImageData(tmp, 0, 0);
+    }
+    resizeDrawCanvas();
+    window.addEventListener('resize', resizeDrawCanvas);
+
+    function setDrawMode(on) {
+      drawMode = on;
+      if (!penEl) return;
+      penEl.style.filter = on
+        ? 'drop-shadow(0 0 8px rgba(215,38,56,0.9)) drop-shadow(4px 16px 10px rgba(0,0,0,0.30))'
+        : 'drop-shadow(4px 16px 10px rgba(0,0,0,0.30))';
+    }
+
+    if (penEl) {
+      penEl.addEventListener('dblclick', (e) => { e.preventDefault(); setDrawMode(!drawMode); });
+
+      let penActive = false, penMoved = false;
+      let px0, py0, penElX0, penElY0;
+
+      function penStart(cx, cy) {
+        penActive = true; penMoved = false;
+        px0 = cx; py0 = cy;
+        penElX0 = penEl.offsetLeft; penElY0 = penEl.offsetTop;
+        if (drawMode) { drawCtx.beginPath(); drawCtx.moveTo(cx, cy); }
+      }
+
+      function penMove(cx, cy) {
+        if (!penActive) return;
+        const dx = cx - px0, dy = cy - py0;
+        if (!penMoved && Math.sqrt(dx*dx+dy*dy) > 4) penMoved = true;
+        penEl.style.left = (penElX0 + dx) + 'px';
+        penEl.style.top  = (penElY0 + dy) + 'px';
+        if (drawMode) {
+          drawCtx.strokeStyle = '#1c1c1c'; drawCtx.lineWidth = 3;
+          drawCtx.lineCap = 'round'; drawCtx.lineJoin = 'round'; drawCtx.globalAlpha = 0.88;
+          drawCtx.lineTo(cx, cy); drawCtx.stroke();
+          drawCtx.beginPath(); drawCtx.moveTo(cx, cy);
+        }
+      }
+
+      function penEnd() { penActive = false; }
+
+      penEl.addEventListener('mousedown', (e) => { penStart(e.clientX, e.clientY); e.preventDefault(); });
+      window.addEventListener('mousemove', (e) => { if (penActive) penMove(e.clientX, e.clientY); });
+      window.addEventListener('mouseup', penEnd);
+
+      penEl.addEventListener('touchstart', (e) => {
+        e.preventDefault(); e.stopPropagation();
+        const now = Date.now();
+        if (now - lastTap < 300) setDrawMode(!drawMode);
+        lastTap = now;
+        penStart(e.touches[0].clientX, e.touches[0].clientY);
+      }, { passive: false, capture: true });
+
+      penEl.addEventListener('touchmove', (e) => {
+        e.preventDefault(); e.stopPropagation();
+        penMove(e.touches[0].clientX, e.touches[0].clientY);
+      }, { passive: false, capture: true });
+
+      penEl.addEventListener('touchend', (e) => {
+        e.preventDefault(); e.stopPropagation();
+        penEnd();
+      }, { passive: false, capture: true });
+    }
+
+    // ── Carousel swipe ──
+    let swipeX = 0;
+    track.addEventListener('touchstart', (e) => { swipeX = e.touches[0].clientX; }, { passive: true });
+    track.addEventListener('touchend', (e) => {
+      const dx = e.changedTouches[0].clientX - swipeX;
+      if (Math.abs(dx) > 40) dx < 0 ? goTo(currentSlide + 1) : goTo(currentSlide - 1);
+    });
+
+    // ── Lightbox ──
+    let _lbPhotos = [], _lbIdx = 0;
+    function openLightbox(src, photos, idx) {
+      _lbPhotos = photos && photos.length ? photos : [src];
+      _lbIdx = idx !== undefined ? idx : 0;
+      _renderLightbox();
+      document.getElementById('photoLightbox').style.display = 'flex';
+    }
+    function _renderLightbox() {
+      document.getElementById('lightboxImg').src = _lbPhotos[_lbIdx];
+      const ctr = document.getElementById('lbCounter');
+      ctr.textContent = _lbPhotos.length > 1 ? (_lbIdx+1) + ' / ' + _lbPhotos.length : '';
+      document.getElementById('lbPrev').style.display = _lbPhotos.length > 1 ? 'flex' : 'none';
+      document.getElementById('lbNext').style.display = _lbPhotos.length > 1 ? 'flex' : 'none';
+    }
+    function closeLightbox() {
+      document.getElementById('photoLightbox').style.display = 'none';
+      document.getElementById('lightboxImg').src = '';
+    }
+
     document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
     document.getElementById('photoLightbox').addEventListener('click', (e) => { if (e.target === document.getElementById('photoLightbox')) closeLightbox(); });
-    document.getElementById('lbPrev').addEventListener('click', (e) => { e.stopPropagation(); _lbIdx = Math.max(0, _lbIdx - 1); _renderLightbox(); });
-    document.getElementById('lbNext').addEventListener('click', (e) => { e.stopPropagation(); _lbIdx = Math.min(_lbPhotos.length - 1, _lbIdx + 1); _renderLightbox(); });
+    document.getElementById('lbPrev').addEventListener('click', (e) => { e.stopPropagation(); _lbIdx = Math.max(0, _lbIdx-1); _renderLightbox(); });
+    document.getElementById('lbNext').addEventListener('click', (e) => { e.stopPropagation(); _lbIdx = Math.min(_lbPhotos.length-1, _lbIdx+1); _renderLightbox(); });
 
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') { closeLightbox(); closePolaroidModal(); drawCtx.clearRect(0,0,drawCanvas.width,drawCanvas.height); }
+      if (document.getElementById('photoLightbox').style.display === 'flex') {
+        if (e.key === 'ArrowRight') { _lbIdx = Math.min(_lbPhotos.length-1, _lbIdx+1); _renderLightbox(); }
+        if (e.key === 'ArrowLeft')  { _lbIdx = Math.max(0, _lbIdx-1); _renderLightbox(); }
+      }
+    });
+
+    // ── Grain ──
     function drawGrain() {
       const canvas = document.querySelector('.grain');
       if (!canvas) return;
       const ctx = canvas.getContext('2d');
-      const w = canvas.width  = window.innerWidth;
+      const w = canvas.width = window.innerWidth;
       const h = canvas.height = window.innerHeight;
-      const grainSize = 2;
-      for (let y = 0; y < h; y += grainSize) {
-        for (let x = 0; x < w; x += grainSize) {
-          const tone = 180 + Math.floor(Math.random() * 75);
-          ctx.fillStyle = `rgba(${tone},${tone},${tone},0.25)`;
-          ctx.fillRect(x, y, grainSize, grainSize);
+      for (let y = 0; y < h; y += 2) {
+        for (let x = 0; x < w; x += 2) {
+          const t = 180 + Math.floor(Math.random() * 75);
+          ctx.fillStyle = `rgba(${t},${t},${t},0.25)`;
+          ctx.fillRect(x, y, 2, 2);
         }
       }
     }
